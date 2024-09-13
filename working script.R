@@ -83,3 +83,19 @@ ggplot(mets_data, aes(x=TARGET)) + geom_bar(fill="steelblue") +
 
 #######################################
 # Step 4
+
+# Create a box plot for the Walks by Batters attribute based on Target values
+ggplot(data, aes(x = TARGET, y = BB, fill = TARGET)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Walks by Batters by Target Values",
+       x = "TARGET",
+       y = "BB (Base on Balls)") +
+  theme_minimal()
+
+# Create a box plot for the Stolen Bases attribute based on Target values
+ggplot(data, aes(x = TARGET, y = SB, fill = TARGET)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Stolen Bases by Target Values",
+       x = "TARGET",
+       y = "SB (Stolen Bases)") +
+  theme_minimal()
