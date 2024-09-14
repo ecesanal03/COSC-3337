@@ -1,10 +1,4 @@
-#install.packages('rpart.plot', repos='http://cran.us.r-project.org')
-library(ggplot2)
-library(dplyr)
-library(rpart)
-library(caret)
-library(rpart.plot)
-data <- read.csv("Baseball_Databank_Teams_1871_2023_Modded.csv")
+#holding shell
 
 #######################################
 # Step 1
@@ -199,66 +193,3 @@ cat("R-squared value:", r_squared, "\n")
 coefficients <- summary(lm_model)$coefficients
 cat("Coefficients of the regression model:\n")
 print(coefficients)
-
-#######################################
-# Step 9
-# Check the column names and the structure of the dataset
-colnames(data)
-# Prepare the dataset by selecting only the attributes from 9 (R) to 34 (FP) and the TARGET column
-selected_data <- data[, c("R","AB","H","X2B","X3B","HR","BB","SO","SB","CS","HBP","SF","RA","ER","ERA","CG","SHO","SV","IPouts","HA","HRA","BBA","SOA","E","DP","FP","TARGET")]
-
-# Split the dataset into training (80%) and testing (20%) sets
-set.seed(123)  # For reproducibility
-train_index <- createDataPartition(selected_data$TARGET, p = 0.8, list = FALSE)
-train_data <- selected_data[train_index, ]
-test_data <- selected_data[-train_index, ]
-
-# Build the first decision tree model
-tree_model_1 <- rpart(TARGET ~ ., data = train_data, 
-                      control = rpart.control(maxdepth = 5, maxcompete = 4, cp = 0.01))
-# Check if the tree has 25 or fewer nodes
-printcp(tree_model_1)
-rpart.plot(tree_model_1, main = "Decision Tree Model 1 (Maxdepth = 5)")
-
-# Build the second decision tree model
-tree_model_2 <- rpart(TARGET ~ ., data = train_data, 
-                      control = rpart.control(maxdepth = 4, minsplit = 20, cp = 0.01))
-# Check if the tree has 25 or fewer nodes
-printcp(tree_model_2)
-rpart.plot(tree_model_2, main = "Decision Tree Model 2 (Maxdepth = 4)")
-
-# Build the third decision tree model
-tree_model_3 <- rpart(TARGET ~ ., data = train_data, 
-                      control = rpart.control(maxdepth = 6, minsplit = 15, cp = 0.02))
-# Check if the tree has 25 or fewer nodes
-printcp(tree_model_3)
-rpart.plot(tree_model_3, main = "Decision Tree Model 3 (Maxdepth = 6)")
-
-# Training accuracy for model 1
-train_pred_1 <- predict(tree_model_1, train_data, type = "class")
-train_accuracy_1 <- mean(train_pred_1 == train_data$TARGET)
-cat("Training Accuracy for Model 1:", train_accuracy_1, "\n")
-# Training accuracy for model 2
-train_pred_2 <- predict(tree_model_2, train_data, type = "class")
-train_accuracy_2 <- mean(train_pred_2 == train_data$TARGET)
-cat("Training Accuracy for Model 2:", train_accuracy_2, "\n")
-# Training accuracy for model 3
-train_pred_3 <- predict(tree_model_3, train_data, type = "class")
-train_accuracy_3 <- mean(train_pred_3 == train_data$TARGET)
-cat("Training Accuracy for Model 3:", train_accuracy_3, "\n")
-
-# Testing accuracy for model 1
-test_pred_1 <- predict(tree_model_1, test_data, type = "class")
-test_accuracy_1 <- mean(test_pred_1 == test_data$TARGET)
-cat("Testing Accuracy for Model 1:", test_accuracy_1, "\n")
-# Testing accuracy for model 2
-test_pred_2 <- predict(tree_model_2, test_data, type = "class")
-test_accuracy_2 <- mean(test_pred_2 == test_data$TARGET)
-cat("Testing Accuracy for Model 2:", test_accuracy_2, "\n")
-# Testing accuracy for model 3
-test_pred_3 <- predict(tree_model_3, test_data, type = "class")
-test_accuracy_3 <- mean(test_pred_3 == test_data$TARGET)
-cat("Testing Accuracy for Model 3:", test_accuracy_3, "\n")
-
-#######################################
-# Step 10
