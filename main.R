@@ -43,8 +43,8 @@ plot2 <- ggplot(clean_data, aes(x = HA, y = BBA)) +
        x = "Hits Allowed (HA)",
        y = "Walks Allowed (BBA)")
 # Display the scatter plots
-print(plot1)
-print(plot2)
+# print(plot1)
+# print(plot2)
 
 ######################### Step 3 #########################################
 # Filter for the Houston Astros and two randomly selected teams
@@ -73,10 +73,10 @@ plot_period_2 <- ggplot(period_2, aes(x = TARGET, fill = name)) +
        y = "Count")
 
 # Display the plots
-print(plot_period_1)
-print(plot_period_2)
+# print(plot_period_1)
+# print(plot_period_2)
 
-######################### Step 4 #########################################
+# ######################### Step 4 #########################################
 
 # Select relevant columns for the box plots
 selected_data <- data[, c("BB", "SB", "TARGET")]
@@ -113,12 +113,12 @@ boxplot_SB_all <- ggplot(clean_data, aes(x = "All Instances", y = SB)) +
        y = "Stolen Bases (SB)")
 
 # Display the plots
-print(boxplot_BB)
-print(boxplot_SB)
-print(boxplot_BB_all)
-print(boxplot_SB_all)
+# print(boxplot_BB)
+# print(boxplot_SB)
+# print(boxplot_BB_all)
+# print(boxplot_SB_all)
 
-######################### Step 5 #########################################
+# ######################### Step 5 #########################################
 
 # Select relevant columns for scatter plots based on the provided names
 selected_data <- data[, c("HBP", "SO", "CG", "SHO", "IPouts", "DP", "TARGET")]
@@ -151,11 +151,11 @@ plot_IPouts_DP <- ggplot(clean_data, aes(x = IPouts, y = DP, color = TARGET)) +
   scale_color_manual(values = c("red", "blue", "green"))
 
 # Display the plots
-print(plot_HBP_SO)
-print(plot_CG_SHO)
-print(plot_IPouts_DP)
+# print(plot_HBP_SO)
+# print(plot_CG_SHO)
+# print(plot_IPouts_DP)
 
-######################### Step 6 #########################################
+# ######################### Step 6 #########################################
 
 # Select relevant columns for density plots
 selected_data <- data[, c("WP", "E", "TARGET")]
@@ -180,10 +180,10 @@ density_E <- ggplot(clean_data, aes(x = E, fill = TARGET)) +
   scale_fill_manual(values = c("red", "blue", "green"))
 
 # Display the density plots
-print(density_WP)
-print(density_E)
+# print(density_WP)
+# print(density_E)
 
-######################### Step 7 #########################################
+# ######################### Step 7 #########################################
 
 # Filter data for teams that won the World Series (WSWIN = 'Y')
 world_series_winners <- data %>% filter(WSWin == "Y")
@@ -216,10 +216,10 @@ hist_L <- ggplot(world_series_winners, aes(x = L, fill = name)) +
 
 # Display the table and histograms
 print(target_count)
-print(hist_W)
-print(hist_L)
+# print(hist_W)
+# print(hist_L)
 
-######################### Step 8 #########################################
+# ######################### Step 8 #########################################
 
 # Select relevant columns for z-score transformation
 selected_data <- data[, c("H", "SO", "SOA", "SHO", "FP", "WP")]
@@ -254,7 +254,7 @@ print(paste("R-squared: ", r_squared))
 print("Coefficients:")
 print(coefficients)
 
-######################### Step 9 #########################################
+# ######################### Step 9 #########################################
 
 # Select only the relevant columns (Attributes 9 (R) to 34 (FP) and Target)
 selected_data <- data[, c("R","AB","H","X2B","X3B","HR","BB","SO","SB","CS","HBP","SF","RA","ER","ERA","CG","SHO","SV","IPouts","HA","HRA","BBA","SOA","E","DP","FP","TARGET")]
@@ -271,7 +271,7 @@ test_data <- clean_data[-trainIndex,]
 # Create decision tree models (restricting to 25 nodes or less)
 control_params <- rpart.control(maxdepth = 5, minsplit = 20, cp = 0.01)
 
-# Model 1: First decision tree
+# # Model 1: First decision tree
 tree_model_1 <- rpart(TARGET ~ ., data = train_data, method = "class", control = control_params)
 rpart.plot(tree_model_1, main = "Decision Tree Model 1")
 
