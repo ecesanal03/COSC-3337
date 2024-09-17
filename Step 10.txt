@@ -1,0 +1,14 @@
+In this task, we explored several aspects of predicting team success using various baseball performance metrics. 
+A linear model demonstrated that attributes like Strikeouts by Pitchers (SOA) and Shutouts (SHO) were the strongest predictors of winning percentage, while Strikeouts by Batters (SO) had a negative impact on team performance. 
+This suggests that pitching strength plays a crucial role in a team's success. 
+Additionally, we created decision tree models to classify teams based on their performance (Target). 
+These models indicated that offensive and defensive metrics such as Runs (R), Hits (H), and Fielding Percentage (FP) help differentiate high-performing teams.
+
+The histograms and density plots revealed that World Series winners typically have higher win totals and fewer losses, emphasizing the importance of both strong offense and defense. 
+Decision tree models showed that it is possible to classify teams effectively using performance attributes, and while simplifying the models led to slightly lower accuracy, the predictive power remained relatively high. 
+This highlights that even with fewer variables or reduced complexity, certain key statistics can effectively predict team outcomes.
+
+From this dataset, we can learn that successful teams are often built on strong pitching, solid defense, and a balanced offense. 
+Attributes like Strikeouts by Pitchers, Shutouts, and Fielding Percentage consistently emerged as important factors in determining team success. 
+On a personal level, this analysis demonstrates how important it is to balance multiple aspects of performance, as success in one area alone does not guarantee overall success. 
+Understanding how different components contribute to a team’s outcome can help in strategic decision-making, whether in sports management or broader contexts.
