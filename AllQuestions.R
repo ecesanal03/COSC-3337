@@ -73,8 +73,46 @@ ggplot(data=dataset, aes(x=W, group=TARGET, fill=TARGET)) + labs(title = "Densit
 # Now the errors
 ggplot(data=dataset, aes(x=E, group=TARGET, fill=TARGET)) + labs(title = "Density of Errors based on Target", x = "Errors", y = "Density") + geom_density(adjust=1.5, alpha = 0.5) + theme_minimal() + scale_fill_manual(values = c("lightblue", "pink", "mediumpurple1"))
 
-# QUESTION 7 - TO DO
+# QUESTION 7 - Table & Histograms
+won_world_series <- dataset[dataset$WSWin == "Y", c(2, 8, 35)]
+high_sum <- sum(won_world_series$TARGET == "HIGH", na.rm = TRUE)
+avg_sum <- sum(won_world_series$TARGET == "AVERAGE", na.rm = TRUE)
+low_sum <- sum(won_world_series$TARGET == "LOW", na.rm = TRUE)
+
+# Create table for Target
+data= matrix(c(high_sum, avg_sum, low_sum), ncol=3, byrow=TRUE)
+colnames(data) = c('HIGH','AVERAGE','LOW')
+rownames(data) <- c('NUMBER OF WINS')
+target_table <- as.table(data)
+target_table # post the target table
+won_world_series # post the table of teams that have won
+
+# TO DO - Histograms for 7
 
 # QUESTION 8 - TO DO
+H <- dataset[["H"]]
+SO <- dataset[["SO"]]
+SOA <- dataset[["SOA"]]
+SHO <- dataset[["SHO"]]
+FP <- dataset[["FP"]]
+WP <- dataset[["WP"]]
+
+# time to do everything into a ZScore
+H_zscore <- scale(H, center=TRUE, scale=TRUE)
+SO_zscore <- scale(SO, center=TRUE, scale=TRUE)
+SOA_zscore <- scale(SOA, center=TRUE, scale=TRUE)
+SHO_zscore <- scale(SHO, center=TRUE, scale=TRUE)
+FP_zscore <- scale(FP, center=TRUE, scale=TRUE)
+
+zscore_data_frame <- data.frame(H_zscore, SO_zscore, SOA_zscore, SHO_zscore, FP_zscore, WP)
+
+# all the data summarized
+model <- lm(WP ~ H_zscore + SO_zscore + SOA_zscore + SHO_zscore + FP_zscore, data = zscore_data_frame)
+summary(model)
+# r-squared value
+summary(model)$r.squared
+# coefficients
+summary(model)$coefficients
 
 # QUESTION 9 - TO DO
+library(tree)
