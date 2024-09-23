@@ -1,9 +1,12 @@
-#install.packages('rpart.plot', repos='http://cran.us.r-project.org')
+# Author: Andrew Lee
+
+#install.packages('ggpubr', repos='http://cran.us.r-project.org')
 library(ggplot2)
 library(dplyr)
 library(rpart)
 library(caret)
 library(rpart.plot)
+library(ggpubr)
 data <- read.csv("Baseball_Databank_Teams_1871_2023_Modded.csv")
 
 #######################################
@@ -102,6 +105,8 @@ ggplot(data, aes(x = TARGET, y = SB, fill = TARGET)) +
        y = "SB (Stolen Bases)") +
   theme_minimal()
 
+
+
 #######################################
 # Step 5
 # Scatter plot for HBP vs SO
@@ -160,6 +165,16 @@ target_summary <- ws_winners %>%
     Average_Count = sum(TARGET == "AVERAGE")
   )
 print(target_summary)
+
+# Rename columns to provide clear labels
+colnames(target_summary) <- c("Team Name", "High Target Count", "Low Target Count", "Average Target Count")
+
+# Display the table visually using ggtexttable
+target_table <- ggtexttable(target_summary, rows = NULL, theme = ttheme("light"))
+
+# Plot the table
+ggarrange(target_table, ncol = 1, nrow = 1)
+
 # Histogram of Wins (W) for each team that won the World Series
 ggplot(ws_winners, aes(x = W)) +
   geom_histogram(binwidth = 5, fill = "steelblue", color = "black") +
