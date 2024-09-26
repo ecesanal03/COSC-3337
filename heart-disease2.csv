@@ -1,4 +1,4 @@
-﻿age,sex,trestbps,chol,fbs,thalach,exang,oldpeak,slope,ca,thal,cp_0,cp_1,cp_2,cp_3,restecg_0,restecg_1,restecg_2,target
+﻿age,sex,restingBloodPressure,serumCholesterol,fastingBloodPressure,maxHeartRate,exerciseInducedAngina,STDepression,slopeDomain,caDomain,thalDomain,cp_0,cp_1,cp_2,cp_3,restecg_0,restecg_1,restecg_2,target
 63,1,145,233,1,150,0,2.3,0,0,1,0,0,0,1,1,0,0,1
 37,1,130,250,0,187,0,3.5,0,0,2,0,0,1,0,0,1,0,1
 41,0,130,204,0,172,0,1.4,2,0,2,0,1,0,0,1,0,0,1
