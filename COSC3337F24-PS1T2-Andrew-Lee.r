@@ -11,11 +11,11 @@ data <- read.csv("heart-disease2.csv")
 # Explore the dataset to check for missing values
 summary(data)
 
-#######################################
-# Step 1
 # Ensure that target is a factor for classification (This is the important fix)
 data$target <- factor(data$target, levels = c(0, 1), labels = c("NoDisease", "Disease"))
 
+#######################################
+# Step 1
 # Set up 5-fold cross-validation
 train_control <- trainControl(method = "cv", number = 5)
 
@@ -55,30 +55,64 @@ print(dt_results)
 
 #######################################
 # Step 2: SVM Model
-
 # Initialize a dataframe to store results
 svm_results <- data.frame(Kernel_Function = character(), Accuracy = double(), Precision = double(), Recall = double())
 
-# Define the tuneGrid with both C and sigma
-tune_grid <- expand.grid(C = 1, sigma = 0.1)  # Adjust the sigma value as necessary
+# Define the kernel types including the custom sigmoid kernel
+kernels <- c("linear", "polynomial", "sigmoid", "sigmoid_custom")
 
-# Train SVM models with Radial Basis Function (RBF) kernel
-svm_model <- train(target ~ ., data = data, method = "svmRadial",
-                   trControl = train_control,
-                   tuneGrid = tune_grid, # Include both sigma and C
-                   preProcess = c("center", "scale"))
+# Set up 5-fold cross-validation
+folds <- createFolds(data$target, k = 5)
 
-# Get cross-validation results
-predictions <- predict(svm_model, data)
-
-# Calculate accuracy, precision, and recall
-confusion <- confusionMatrix(predictions, data$target)
-accuracy <- confusion$overall['Accuracy']
-precision <- confusion$byClass['Pos Pred Value']
-recall <- confusion$byClass['Sensitivity']
-
-# Store the results in the dataframe
-svm_results <- rbind(svm_results, data.frame(Kernel_Function = "Radial", Accuracy = accuracy, Precision = precision, Recall = recall))
+# Loop over the kernels and perform 5-fold cross-validation
+for (kernel in kernels) {
+  
+  # Initialize variables to store cumulative metrics
+  total_accuracy <- 0
+  total_precision <- 0
+  total_recall <- 0
+  
+  # Loop over each fold
+  for (fold in folds) {
+    
+    # Split the data into training and testing sets
+    train_data <- data[-fold, ]
+    test_data <- data[fold, ]
+    
+    # Train the SVM model using the specified kernel
+    if (kernel == "sigmoid_custom") {
+      # Custom sigmoid kernel with a different s (coef0)
+      svm_model <- svm(target ~ ., data = train_data, kernel = "sigmoid", scale = TRUE, coef0 = -0.2)  # Adjust coef0 as needed
+    } else {
+      # Train the SVM model for other kernels
+      svm_model <- svm(target ~ ., data = train_data, kernel = kernel, scale = TRUE)
+    }
+    
+    # Make predictions on the test set
+    predictions <- predict(svm_model, test_data)
+    
+    # Compute the confusion matrix
+    confusion <- confusionMatrix(predictions, test_data$target)
+    
+    # Extract metrics for this fold
+    accuracy <- confusion$overall['Accuracy']
+    precision <- confusion$byClass['Pos Pred Value']
+    recall <- confusion$byClass['Sensitivity']
+    
+    # Sum up the metrics for averaging later
+    total_accuracy <- total_accuracy + accuracy
+    total_precision <- total_precision + precision
+    total_recall <- total_recall + recall
+  }
+  
+  # Average the metrics across the 5 folds
+  avg_accuracy <- total_accuracy / 5
+  avg_precision <- total_precision / 5
+  avg_recall <- total_recall / 5
+  
+  # Append the results to the dataframe
+  svm_results <- rbind(svm_results, data.frame(Kernel_Function = kernel, Accuracy = avg_accuracy, Precision = avg_precision, Recall = avg_recall))
+}
 
 # Print the final results
 print(svm_results)
