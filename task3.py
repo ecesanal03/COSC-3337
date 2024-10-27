@@ -1,3 +1,0 @@
-import tropycal
-
-print("worked")
