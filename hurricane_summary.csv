@@ -1,3 +1,4 @@
+id,name,year,start_time,end_time,init_lat,init_lon,vmax,mslp,impact_lat,impact_lon,city_impacted
 AL031998,CHARLEY,1998,1998-08-21T06:00:00,1998-08-24T00:00:00,25.3,-92.3,60,1000,27.9,-97.4,"Corpus Christi, USA"
 AL051998,EARL,1998,1998-08-31T12:00:00,1998-09-08T12:00:00,21.6,-93.5,85,964,29.4,-86.8,"Pensacola, USA"
 AL061998,FRANCES,1998,1998-09-08T18:00:00,1998-09-13T18:00:00,25.5,-94.5,55,990,28.2,-96.9,"Corpus Christi, USA"
